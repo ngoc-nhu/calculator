@@ -23,14 +23,14 @@ handleClick(event){
                 var ans='';
                     try
                     {
-                        ans = eval(this.state.question);
+                        ans = eval(((((this.state.question).replace(/x/g,'*')).replace(/,/g,'.')).replace(/÷/g,'/')).replace(/%/g,'/100'));
                     }
                     catch(err)
                     {
                        ans="Math Error"
                     }
                    
-                        this.setState({ question: ans});
+                        this.setState({ question: ans.toString()});
                 
             
             }
@@ -52,8 +52,84 @@ handleClick(event){
         else
         
           {
+            
             if(this.state.question !== "Math Error")
-            this.setState({ question: ((((this.state.question += value).replace('x','*')).replace(',','.')).replace('÷','/')).replace('%','/100')})
+            {
+                //Kiểm tra các trường hợp nhập vào 1 dãy phép tính +++++++,----------
+                if((this.state.question).slice(-1) === "+" )
+                {
+                    if (value!=='+'&&value!=='-'&&value!=='x'&&value!=='÷')
+                    this.setState({ question: (this.state.question += value)})
+                }
+                else 
+                if((this.state.question).slice(-1) === "-" )
+                {
+                    if (value!=='+'&&value!=='-'&&value!=='x'&&value!=='÷')
+                    this.setState({ question: (this.state.question += value)})
+                }
+                else 
+                if((this.state.question).slice(-1) === "x" )
+                {
+                    if (value!=='+'&&value!=='-'&&value!=='x'&&value!=='÷')
+                    this.setState({ question: (this.state.question += value)})
+                }
+                else 
+                if((this.state.question).slice(-1) === "÷" )
+                {
+                    if (value!=='+'&&value!=='-'&&value!=='*'&&value!=='÷')
+                    this.setState({ question: (this.state.question += value)})
+                }
+
+
+                //Kiểm tra không được nhập vào một dãy 000000000
+                
+                else if((this.state.question) === "0"){
+                    if(value!=="0" )
+                   this.setState({ question: (this.state.question += value)})
+
+                }
+                //Kiểm tra khi nhập vào phép tính 1+ 01 
+                else if((this.state.question).slice(-1) === "0" &&this.state.question.slice(-2,-1) ==="+"){
+                    {
+                        var str = this.state.question;
+                        str = str.slice(0,-1);
+                        this.setState({question: str + value});
+                    }
+                }
+                else if((this.state.question).slice(-1) === "0" &&this.state.question.slice(-2,-1) ==="-"){
+                    {
+                        var str = this.state.question;
+                        str = str.slice(0,-1);
+                        this.setState({question: str + value});
+                    }
+                }
+                else if((this.state.question).slice(-1) === "0" &&this.state.question.slice(-2,-1) ==="x"){
+                    {
+                        var str = this.state.question;
+                        str = str.slice(0,-1);
+                        this.setState({question: str + value});
+                    }
+                }
+                else if((this.state.question).slice(-1) === "0" &&this.state.question.slice(-2,-1) ==="÷"){
+                    {
+                        var str = this.state.question;
+                        str = str.slice(0,-1);
+                        this.setState({question: str + value});
+                    }
+                }
+                
+                //Không cho nhập vào một dãy dấu ,,,,,,,,,  
+                else
+                if((this.state.question).slice(-1) === "," ){
+                    if (value!==','&&value!=='+'&&value!=='-'&&value!=='*'&&value!=='÷')
+                    this.setState({ question: (this.state.question += value)})
+                }
+                else
+
+                this.setState({ question: (this.state.question += value)})
+
+               
+            }
             else
             {
                 this.setState({question: value })

@@ -24,9 +24,12 @@
   background:  grey;
   border: 0px;
   color: #ffffff;
-  padding: 10px;
+  
   text-align: right;
   font-size: 60px;
+  border: none;
+  margin: 0px ;
+  padding: 0px ;
 } 
 /* input[type="button"]{
   width: 100px;
